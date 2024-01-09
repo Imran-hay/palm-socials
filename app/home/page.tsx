@@ -187,7 +187,7 @@ type AbbreviationCardProps = {
 const AbbreviationCard: React.FC<AbbreviationCardProps> = ({ word, abbreviation }) => {
   return (
     <div className=" rounded shadow p-4 mx-auto max-w-sm">
-      <h2 className="text-2xl font-bold mb-4 text-yellow-600">{word}</h2>
+      <h2 className="text-xl font-bold mb-4 text-yellow-600">{word}</h2>
       <p className="text-cyan-600 text-center">{abbreviation}</p>
     </div>
   );
@@ -603,7 +603,7 @@ const Home = () => {
   const axisStyle = {
     axis: { stroke: 'white' },
     axisLabel: { fill: 'white' },
-    tickLabels: { fill: 'red', fontSize: 5, angle: -45, textAnchor: 'end' }, 
+    tickLabels: { fill: 'red', fontSize: 15, angle: -45, textAnchor: 'end' }, 
     grid: { stroke: 'none' }, // Remove gridlines
   };
 
@@ -633,7 +633,7 @@ const Home = () => {
         
 
      
-        <div className='m-20'>
+        <div className="flex-column flex-1 justify-center items-center mb-40">
            <h1 className="text-center text-cyan-700 font-bold text-4xl m-6">Basic Social Media Analytics</h1>
            <div className="flex items-center justify-center">
       <Instagram_Logo />
@@ -644,7 +644,7 @@ const Home = () => {
           {
             Loading?<Activity/>:(
               <div className="overflow-x-auto">
-<table className="table" style={{textAlign:"left",margin:"20px"}}>
+<table className="table w-full" style={{textAlign:"left",margin:"20px"}}>
   {/* head */}
   <thead>
     <tr>
@@ -704,7 +704,7 @@ const Home = () => {
     {
             Loading2?<Activity2/>:(
               <div className="overflow-x-auto">
-<table className="table" style={{textAlign:"left",margin:"20px"}}>
+<table className="table w-full" style={{textAlign:"left",margin:"20px"}}>
   {/* head */}
   <thead>
     <tr>
@@ -770,47 +770,37 @@ const Home = () => {
         <div style={{marginBottom:"15px"}}>
 
   
-        <VictoryChart
-        theme={VictoryTheme.material}
-        domainPadding={{ x: 20 }} // Adjust the domain padding for longer labels
-      >
-        <VictoryAxis
-          dependentAxis
-        
-          style={axisStyle}
-        />
-        <VictoryAxis
-          tickFormat={(t) => `${t.slice(0, 3)}.`}
-          style={axisStyle}
-        />
-        <VictoryBar
-          data={data}
-          x="data"
-          y="value"
-          style={barStyle}
-          barWidth={5}
-          
-          
-        />
-      </VictoryChart>
-      <div className='flex'>
-      <AbbreviationCard word='Views' abbreviation='Vie'/>
-
-<AbbreviationCard word='Estimated Minutes watched' abbreviation='EMW'/>
-
-<AbbreviationCard word='Average View Duration' abbreviation='AVD'/>
-
-<AbbreviationCard word='Average View Percentage' abbreviation='AVP'/>
-
-<AbbreviationCard word='Subscribers Gained' abbreviation='SG'/>
-
-<AbbreviationCard word='Comments' abbreviation='Com'/>
-<AbbreviationCard word='Dislikes' abbreviation='Dis'/>
-<AbbreviationCard word='Likes' abbreviation='Lik'/>
+<div style={{ width: '100%', height: '100%' }}>
+  <VictoryChart
+    theme={VictoryTheme.material}
+    domainPadding={{ x: 20 }} // Adjust the domain padding for longer labels
+    width={window.innerWidth} // Set the width to the current window width
+    height={window.innerHeight} // Set the height to the current window height
+  >
+    <VictoryAxis dependentAxis style={axisStyle} />
+    <VictoryAxis tickFormat={(t) => `${t.slice(0, 3)}.`} style={axisStyle} />
+    <VictoryBar
+      data={data}
+      x="data"
+      y="value"
+      style={barStyle}
+      barWidth={10}
+    />
+  </VictoryChart>
+</div>
+<h2 className="text-2xl font-bold mb-4 mr-2 mt-4 text-center text-red-600">Additional Information</h2>
+<div className="flex flex-wrap justify-center items-center">
  
-
-      </div>
-      
+  <br/>
+  <AbbreviationCard word="Views" abbreviation="Vie" />
+  <AbbreviationCard word="Estimated Minutes watched" abbreviation="EMW" />
+  <AbbreviationCard word="Average View Duration" abbreviation="AVD" />
+  <AbbreviationCard word="Average View Percentage" abbreviation="AVP" />
+  <AbbreviationCard word="Subscribers Gained" abbreviation="SG" />
+  <AbbreviationCard word="Comments" abbreviation="Com" />
+  <AbbreviationCard word="Dislikes" abbreviation="Dis" />
+  <AbbreviationCard word="Likes" abbreviation="Lik" />
+</div>
 
 
 
@@ -834,7 +824,7 @@ const Home = () => {
     {
             Loading4?<Activity2/>:(
               <div className="overflow-x-auto">
-<table className="table" style={{textAlign:"left",margin:"20px"}}>
+<table className="table w-full" style={{textAlign:"left",margin:"20px"}}>
   {/* head */}
   <thead>
     <tr>

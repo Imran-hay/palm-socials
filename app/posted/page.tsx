@@ -96,8 +96,8 @@ const Posted = () => {
         </label>
       </div>
       <button
-        className="btn btn-outline btn-success w-60 justify-center"
-        style={{ marginLeft: "40vw", marginTop: "10px", marginBottom: "10px" }}
+        className="btn btn-outline btn-success w-60 justify-center "
+        style={{ marginLeft:"30vw", marginTop: "10px", marginBottom: "10px" }}
         onClick={handleClick}>
       
         Go

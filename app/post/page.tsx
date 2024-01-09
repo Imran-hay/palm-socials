@@ -828,7 +828,8 @@ const Post = () => {
 
       {renderInputForm()}
     </div>
-    <input  onChange={handleFileChange} type="file" title='file' className="file-input file-input-bordered   file-input-accent w-full max-w-xs "  style={{marginLeft:"30vw", marginTop:"50px",marginBottom:"30px"}}/>
+    <input  onChange={handleFileChange} type="file" title='file' className="file-input file-input-bordered   file-input-accent w-full max-w-xs "  style={{marginLeft:"20vw", marginTop:"50px",marginBottom:"30px"}}/>
+    <br/>
 
 
     <button  className="btn btn-outline btn-success w-60 justify-center" style={{marginLeft:"35vw", marginTop:"10px",marginBottom:"10px"}} onClick={handleUpload}>Upload</button>
