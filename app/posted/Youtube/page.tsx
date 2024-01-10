@@ -9,6 +9,7 @@ import { Activity } from "@/app/Components/Activity";
 import Heade from "@/app/Components/Header";
 import Nav from "@/app/Components/Nav";
 import isAuth from "@/app/Components/Auth";
+import { useRouter } from 'next/navigation'
 
 
 let fetchCount = 0;
@@ -113,6 +114,7 @@ const Youtube = () =>
     const [Loading,setLoading] = useState(true)
     const [tokens,setTokens] = React.useState(tewa)
     //const tokens = tewa
+    const router = useRouter()
     
   
   
@@ -274,7 +276,7 @@ const Youtube = () =>
           return (
               
           
-              <div>
+              <div className="mb-20">
                 <Heade/>
                 
               <h1 className="text-4xl text-center text-red-800">YouTube Posted Media</h1>
@@ -305,7 +307,9 @@ const Youtube = () =>
           
           );
         } else {
+          router.refresh()
           return <h1 className="text-4xl text-center text-red-800">No Youtube data available.</h1>;
+         
         }
 
 

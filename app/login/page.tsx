@@ -74,7 +74,7 @@ const Login = () => {
       
     } catch (error) {
 
-      alert("an error happened")
+      alert(error)
     
       
     }
@@ -91,7 +91,7 @@ const Login = () => {
  
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen ">
+    <div className="flex flex-col items-center justify-center h-screen sm:mb-6 md:mb-6 ">
       <h1 className="text-blue-900 text-5xl mt-16 pt-5 font-bold italic">
         Welcome to Palm Socials
       </h1>

@@ -1,9 +1,11 @@
 const mongoose = require('mongoose')
 mongoose.set('strictQuery',false)
 const Token = require('../../../models/Token')
+const cors = require('cors')
 const handler = async(req,res) =>
 {
     try{
+      cors()
 
       await mongoose.connect(`mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASS}@cluster0.gpom6d9.mongodb.net/${process.env.MONGODB}?retryWrites=true&w=majority`)
         console.log("connected")

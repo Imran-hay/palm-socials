@@ -36,7 +36,7 @@ interface DisplayImageProps {
   const Display_Image = ({ Uri }: DisplayImageProps) => {
     return (
       <div style={{ margin: "30px", display: "flex", justifyContent: "center" }}>
-        <img src={Uri} style={{ width: "700px", height: "600px", objectFit: "cover",borderRadius:10 }} alt="img" />
+        <img src={Uri} style={{ width: "700px", height: "550px", objectFit: "cover",borderRadius:10 }} alt="img" />
       </div>
     );
   };

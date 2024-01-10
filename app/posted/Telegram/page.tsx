@@ -55,8 +55,8 @@ interface DisplayImageProps {
 
 const Display_Image = ({ Uri }: DisplayImageProps) => {
     return (
-      <div style={{  margin:"30px",alignItems:"center",marginLeft:"15vw" }}>
-        <img src={Uri} style={{height:"500px",width:"600px",marginLeft:"7vw",borderRadius:10}}  alt="img" />
+      <div  style={{  margin:"30px",alignItems:"center",marginLeft:"15vw" }}>
+        <img src={Uri} style={{height:"350px",width:"400px",marginLeft:"5vw",borderRadius:10}}  alt="img" />
       </div>
     );
   };
@@ -164,7 +164,7 @@ const Telegram = () =>
             <Heade/>
            
         <div>
-            <h1 className="text-4xl text-center text-cyan-500">Telegram Posts</h1>
+            <h1 className="text-4xl text-center text-cyan-500 lg:mr-20">Telegram Posts</h1>
       
         
 
