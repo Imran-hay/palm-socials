@@ -159,13 +159,13 @@ const Post = () => {
         if (selectedInputs.includes('Telegram') || selectedInputs.includes('Facebook') || selectedInputs.includes('Instagram')) {
           return (
             <div>
-              <h2 className='text-2xl text-cyan-700 text-center m-10'>Write a caption for the post</h2>
+              <h2 className='text-2xl text-cyan-700 text-center m-10 lg:mr-10'>Write a caption for the post</h2>
               <input
   type="text"
   placeholder="Type here"
   className="input input-bordered input-info w-full max-w-lg mx-auto "
   value={caption}
-  style={{marginLeft:"30vw", marginTop:"10px", marginBottom:"20px"}}
+  style={{marginLeft:"13vw", marginTop:"10px", marginBottom:"20px"}}
   onChange={(e)=>setCaption(e.target.value)}
 />
               {/* Your input form JSX goes here */}
@@ -828,12 +828,14 @@ const Post = () => {
 
       {renderInputForm()}
     </div>
-    <input  onChange={handleFileChange} type="file" title='file' className="file-input file-input-bordered   file-input-accent w-full max-w-xs "  style={{marginLeft:"20vw", marginTop:"50px",marginBottom:"30px"}}/>
+    <input  onChange={handleFileChange} type="file" title='file' className="file-input file-input-bordered   file-input-accent w-full max-w-xs "  style={{marginLeft:"13vw", marginTop:"50px",marginBottom:"30px"}}/>
     <br/>
 
 
-    <button  className="btn btn-outline btn-success w-60 justify-center" style={{marginLeft:"35vw", marginTop:"10px",marginBottom:"10px"}} onClick={handleUpload}>Upload</button>
-    <button onClick={handleReload} className="btn btn-outline btn-error w-60 "  style={{marginLeft:"35vw", marginTop:"10px"}}>Reload</button>
+    <button  className="btn btn-outline btn-success w-60 justify-center" style={{marginLeft:"30vw", marginTop:"10px",marginBottom:"10px"}} onClick={handleUpload}>Upload</button>
+
+    <br/>
+    <button onClick={handleReload} className="btn btn-outline btn-error w-60 "  style={{marginLeft:"30vw", marginTop:"10px"}}>Reload</button>
 
 
     {uploadStatus && (

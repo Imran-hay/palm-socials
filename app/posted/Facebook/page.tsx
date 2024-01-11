@@ -51,7 +51,7 @@ interface DisplayIdProps {
       <div className="text-center mx-auto w-3/4 mt-8">
         <p className="text-2xl">
           <span className="text-blue-500">Post-ID: </span>
-          <span className="text-blue-600 text-left">{Id}</span>
+          <span className="text-blue-600 text-left w-full">{Id}</span>
         </p>
         <p className="text-2xl mt-4">
           <span className="text-blue-500">URL: </span>
