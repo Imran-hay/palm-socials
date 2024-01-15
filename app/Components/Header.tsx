@@ -25,7 +25,7 @@ export default function  Heade()
     <img src="/palm.jpg" alt="Icon" className="icon" style={{ width: "50px", height: "auto", borderRadius: 10 }} />
     <span className="ml-2">Palm Real Estate</span>
   </a>
-  <button className="btn btn-outline  btn-error mt-4 sm:mt-0">Logout</button>
+  <button className="btn btn-outline  btn-error mt-4 sm:mt-0" onClick={handleLogout}>Logout</button>
 </div>
 
 
