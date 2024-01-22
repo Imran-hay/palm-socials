@@ -123,6 +123,7 @@ const Post = () => {
     
       const [selectedInputs, setSelectedInputs] = useState<string[]>([]);
       const [caption,setCaption] =useState("")
+      const [title,setTitle]= useState("")
       const [uploadedFile, setUploadedFile] = useState<{
         binaryForm: string | ArrayBuffer | null | undefined|Blob|BlobPart;
     
@@ -167,6 +168,23 @@ const Post = () => {
   value={caption}
   style={{marginLeft:"13vw", marginTop:"10px", marginBottom:"20px"}}
   onChange={(e)=>setCaption(e.target.value)}
+/>
+              {/* Your input form JSX goes here */}
+            </div>
+          );
+        }
+        ///////////////////////////////////////////////////
+          if (selectedInputs.includes('Youtube')) {
+          return (
+            <div>
+              <h2 className='text-2xl text-cyan-700 text-center m-10 lg:mr-10'>Write a Title for the Video</h2>
+              <input
+  type="text"
+  placeholder="Type here"
+  className="input input-bordered input-info w-full max-w-lg mx-auto "
+  value={title}
+  style={{marginLeft:"13vw", marginTop:"10px", marginBottom:"20px"}}
+  onChange={(e)=>setTitle(e.target.value)}
 />
               {/* Your input form JSX goes here */}
             </div>
@@ -564,43 +582,81 @@ const Post = () => {
            
         }
       );*/
+      /*const data = JSON.stringify({
+        snippet: {
+          title: "tmp",
+        },
+        status: {
+          // Add any additional status properties if needed
+        }
+      })
+
+      const concatenated = Object.assign({}, data, uploadedFile.binaryForm);*/
 
          const response = await fetch(
-        'https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status',
+        'https://www.googleapis.com/upload/youtube/v3/videos?part=snippet',
         {
+          
           method: 'POST',
           //mode:"no-cors",
           headers: {
             'Content-Type': 'application/octet-stream',
-            Authorization: `Bearer ${ytoken}`,
+           Authorization: `Bearer ${ytoken}`,
+          // Authorization: `Bearer ${'ya29.a0AfB_byDAyz9ycHxcUaZgOypUJIvqFrjwWbmNjFAoZZ5B_rM2Va8GXnp75Az5INdmokk_t9cbOQzniUup_SCqg6jcmdunqrIZ49SV6VyG5AQAzhpNWmg2kfJgoo4NQzEsu6q_C4PdP142meXWdPruCI7x0P-U5jxDh3-taCgYKAaUSARASFQHGX2Mi-SJEc9ywqJu4HG1Tj4oIeQ0171'}`,
            
           },
-          body:
-         
-              uploadedFile.binaryForm
-
-            
-          
-          
-             
+         body:uploadedFile.binaryForm
               
-            
-          
-          
-           
-
-          
-            
-           
-            
-           
-        }
+        }   
+        
       );
 
       if (response.ok && response.status === 200) {
         const responseData = await response.json();
-       // console.log(responseData);
-        youtube_status="upload to youtube was successful"
+        console.log(responseData);
+
+       const id = responseData.id
+
+       try{
+        const response2 = await fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet",{
+          
+
+        method:"Put",
+        headers:{
+          'Content-Type': 'application/json',
+          //"Authorization": `Bearer ${'ya29.a0AfB_byDAyz9ycHxcUaZgOypUJIvqFrjwWbmNjFAoZZ5B_rM2Va8GXnp75Az5INdmokk_t9cbOQzniUup_SCqg6jcmdunqrIZ49SV6VyG5AQAzhpNWmg2kfJgoo4NQzEsu6q_C4PdP142meXWdPruCI7x0P-U5jxDh3-taCgYKAaUSARASFQHGX2Mi-SJEc9ywqJu4HG1Tj4oIeQ0171'}`,
+           'Authorization': `Bearer ${ytoken}`,
+        },
+        body: JSON.stringify({
+
+          "id":id,
+          "snippet":{
+            "categoryId": "22",
+              //"description": "Trial description.",
+              "title": title
+          
+          
+          }
+        })
+       
+         
+        })
+        if (response2.ok && response2.status === 200) {
+          youtube_status="upload to youtube was successful"
+
+        }
+        else{
+          youtube_status= `Error uploading.Please try again`
+        }
+          
+       }
+
+       catch(e)
+       {
+        console.log(e)
+       }
+      
+      
 
        // const videoId = responseData.id
         ////////////////////////////////////////////////////////////////////////////////////
@@ -950,3 +1006,4 @@ const Post = () => {
   
 //<p>Selected Inputs: {selectedInputs.join(', ')}</p>
 export default isAuth(Post)
+//export default Post
