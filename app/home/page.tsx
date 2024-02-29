@@ -891,9 +891,9 @@ const Home = () => {
   </VictoryChart>
 </div>
 <h2 className="text-2xl font-bold mb-4 mr-2 mt-4 text-center text-red-600">Additional Information</h2>
-<div className="flex flex-wrap justify-center items-center">
+<div className="grid lg:grid-cols-4 md:grid-cols-2">
  
-  <br/>
+ 
   <AbbreviationCard word="Views" abbreviation="Vie" />
   <AbbreviationCard word="Estimated Minutes watched" abbreviation="EMW" />
   <AbbreviationCard word="Average View Duration" abbreviation="AVD" />
