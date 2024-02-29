@@ -12,6 +12,7 @@ import Heade from '../Components/Header';
 import { redirect } from 'next/navigation';
 import isAuth from '../Components/Auth';
 import { TokenContext,TokenProvider } from '@/context/TokenContext';
+import { AnyObjectSchema } from 'yup';
 
 
 var ha =[]
@@ -207,6 +208,7 @@ const Home = () => {
   const [Instagram4,setInstagram4] = React.useState([]);
 
   const [Facebook,setFacebook] = React.useState(face)
+  const [Facebook2,setFacebook2] = React.useState("")
 
   const [Loading,setLoading] = React.useState(true)
   const [Loading2,setLoading2] = React.useState(true)
@@ -222,6 +224,8 @@ const Home = () => {
  const [Telegram2,setTelegram2] = React.useState(t2)
  const [Ytoken,setYtoken] = React.useState("")
  const [loggedin, setLoggedin] = React.useState(false)
+
+ const [view,setView] = React.useState("")
 
  const tokenContext = React.useContext(TokenContext)
   
@@ -372,78 +376,176 @@ const Home = () => {
     
     const fetchFacebook = async() =>{
       try{
-        const r = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}?fields=name,checkins,followers_count,new_like_count&access_token=${tokens.PAGETOKEN_PALM}`)
-        const response = await r.json() 
-       // console.log("Facebook")
 
+        try {
+          const r = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}?fields=name,checkins,followers_count,new_like_count&access_token=${tokens.PAGETOKEN_PALM}`)
+          const response = await r.json() 
+         // console.log("Facebook")
+  
+          
+          setFacebook(response)
+         // console.log(response)
+          
+        } catch (error:any) {
+          console.log("response 1 error")
+
+          console.log(error.message)
+          
+        }
+
+        try {
+          const r2 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_engaged_users?access_token=${tokens.PAGETOKEN_PALM}`)
+          const response2 = await r2.json()
+          
         
-        setFacebook(response)
-       // console.log(response)
-
-        const r2 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_engaged_users?access_token=${tokens.PAGETOKEN_PALM}`)
-        const response2 = await r2.json()
         
-      
+          ed=response2.data[0].values[1].value;
+          ew=response2.data[1].values[1].value;
+          //console.log(response2)
+          
+        } catch (error:any) {
 
-        ed=response2.data[0].values[1].value;
-        ew=response2.data[1].values[1].value;
-        //console.log(response2)
+          console.log("response 2 error")
 
-        const r3 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_post_engagements?access_token=${tokens.PAGETOKEN_PALM}`)
-        const response3 = await r3.json()
+          console.log(error.message)
+          
+        }
 
-        pped=response3.data[0].values[1].value;
-        ppew=response3.data[1].values[1].value;
-        //console.log(response3)
+        try {
+          const r3 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_post_engagements?access_token=${tokens.PAGETOKEN_PALM}`)
+          const response3 = await r3.json()
+  
+          console.log("Successfully fetched Facebook")
+  
+          pped=response3.data[0].values[1].value;
+          ppew=response3.data[1].values[1].value;
+        //  console.log(response3)
+          
+        } catch (error:any) {
+          console.log("response 3 error")
 
+          console.log(error.message)
+          
+          
+        }
+
+        try {
+          
         const r4 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_negative_feedback?access_token=${tokens.PAGETOKEN_PALM}`)
         const response4 = await r4.json()
 
         nfd=response4.data[0].values[1].value;
         nfw=response4.data[1].values[1].value;
+
+        
+        pid=response4.data[0].values[1].value;
+        piw=response4.data[1].values[1].value;
         //console.log(response4)
+          
+        } catch (error:any) {
 
-        const r5 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_impressions?access_token=${tokens.PAGETOKEN_PALM}`)
-        const response5 = await r5.json()
+          console.log("response 4 error")
 
+          console.log(error.message)
+
+
+          
+        }
+      
+
+    
+
+      
+
+       
+
+
+       // const r5 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_impressions?access_token=${tokens.PAGETOKEN_PALM}`)
+       // const response5 = await r5.json()
+
+       try {
         const r6 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_posts_impressions?access_token=${tokens.PAGETOKEN_PALM}`)
         const response6 = await r6.json()
+                
+        pi1=response6.data[0].values[1].value;
+        pi2=response6.data[1].values[1].value;
+        pi3=response6.data[2].values[1].value;
+
+        
+       } catch (error:any) {
+
+        console.log("response 6 error")
+
+        console.log(error.message)
+        
+       }
+
+     
 
         //console.log(response6)
 
+        try {
+          const r7 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_actions_post_reactions_like_total?access_token=${tokens.PAGETOKEN_PALM}`)
+          const response7 = await r7.json()
+          li1=response7.data[0].values[1].value;
+          li2=response7.data[1].values[1].value;
+          li3=response7.data[2].values[1].value;
+  
+          
+        } catch (error:any) {
+
+          console.log("response 7 error")
+
+          console.log(error.message)
+          
+        }
+
        
-       const r7 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_actions_post_reactions_like_total?access_token=${tokens.PAGETOKEN_PALM}`)
-       const response7 = await r7.json()
+    
       // console.log(response7)
 
       //const r8 = await fetch(`https://graph.facebook.com/v17.0/${palm_fb_id}/insights/page_fans_country?access_token=${pagetoken_palm}`)
      //// const response8 = await r8.json()
      // console.log(response8)
 
-        const r9 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_views_total?access_token=${tokens.PAGETOKEN_PALM}`)
+     try {
+      const r9 = await fetch(`https://graph.facebook.com/v17.0/${tokens.PALM_FB_ID}/insights/page_views_total?access_token=${tokens.PAGETOKEN_PALM}`)
       const response9 = await r9.json()
-     //console.log(response9)
+     console.log(response9)
 
+    
       v1=response9.data[0].values[1].value;
+    
       v2=response9.data[1].values[1].value;
+      setView(response9.data[1].values[1].value)
+      setFacebook2(response9.data[1].values[1].value)
+
       v3=response9.data[2].values[1].value;
 
+     // alert(v2)
+
+      console.log("v2")
+      console.log(v2)
+
+      
+     } catch (error:any) {
+
+      console.log("response 9 error")
+
+      console.log(error.message)
+
+      
+     }
+
+       
 
 
-        
-        pi1=response6.data[0].values[1].value;
-        pi2=response6.data[1].values[1].value;
-        pi3=response6.data[2].values[1].value;
 
-        li1=response7.data[0].values[1].value;
-        li2=response7.data[1].values[1].value;
-        li3=response7.data[2].values[1].value;
 
+     
 
     
 
-        pid=response4.data[0].values[1].value;
-        piw=response4.data[1].values[1].value;
       
       
       
@@ -725,7 +827,7 @@ const Home = () => {
     {/* row 3 */}
     <tr>
       <th className='text-cyan-600'>Total Views(The number of times a Pages profile has been viewed)</th>
-      <td className='text-cyan-600'>{v2 +" times this week " + "and " +v3 + " times in the last 28 days"}</td>
+      <td className='text-cyan-600'>{Facebook2 +" times this week " + "and " +v3 + " times in the last 28 days"}</td>
     </tr>
     <tr>
       <th className='text-cyan-600'>Total Likes(Total post like reactions of a page)</th>

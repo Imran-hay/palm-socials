@@ -5,6 +5,19 @@ import Heade from "@/app/Components/Header";
 import Nav from "@/app/Components/Nav";
 import isAuth from "@/app/Components/Auth";
 
+interface Channel{
+  message_id:string,
+  sender_chat:any,
+  chat:any,
+  date:string,
+  photo:any
+}
+
+
+interface Post{
+  channel_post:Channel
+}
+
 interface token{
   PALM_INSTAGRAM_ID:string,
   PALM_FB_ID:string,
@@ -49,6 +62,9 @@ const paths = []
 const ids:any =[]
 const urls:any =[]
 
+var updates:any = []
+var posts:any = []
+
 interface DisplayImageProps {
     Uri: string;
   }
@@ -56,7 +72,7 @@ interface DisplayImageProps {
 const Display_Image = ({ Uri }: DisplayImageProps) => {
     return (
       <div  style={{  margin:"30px",alignItems:"center",marginLeft:"15vw" }}>
-        <img src={Uri} style={{height:"350px",width:"400px",marginLeft:"5vw",borderRadius:10}}  alt="img" />
+        <img src={Uri} className="lg:ml-20" style={{height:"350px",width:"400px",marginLeft:"5vw",borderRadius:10}}  alt="img" />
       </div>
     );
   };
@@ -64,6 +80,7 @@ const Display_Image = ({ Uri }: DisplayImageProps) => {
 const Telegram = () =>
 {
     const [URL,setURL] = React.useState([])
+    const [URL2,setURL2] = React.useState([])
     const [tokens,setTokens] = React.useState(tewa)
     const fetchToken = async() =>{
 
@@ -98,6 +115,9 @@ const Telegram = () =>
         const fetchData = async() =>{
             const base_url = `https://api.telegram.org/file/bot${tokens.TELEGRAM_TOKEN}/`
            // alert(base_url)
+
+        
+
            if(tokens.TELEGRAM_TOKEN !== '')
            {
 
@@ -146,6 +166,64 @@ const Telegram = () =>
         
         }
         fetchData()
+
+        const getUpdates = async() =>{
+    
+
+          const base_url = `https://api.telegram.org/file/bot${tokens.TELEGRAM_TOKEN}/`
+          try{
+            
+          const response = await fetch(`https://api.telegram.org/bot${tokens.TELEGRAM_TOKEN}/getUpdates?chat_id=@palm_realestate`)
+            if(response.ok)
+            {
+              const data = await response.json()
+              const result = data.result
+    
+              result.map((posts:Post)=>{
+                console.log(posts.channel_post.photo[1].file_id)
+                updates.push(posts.channel_post.photo[1].file_id)
+    
+              })
+    
+              console.log("Telegram updates")
+
+              for(let i = 0 ; i < updates.length;i++)
+              {
+                  const r2 = await fetch(`https://api.telegram.org/bot${tokens.TELEGRAM_TOKEN}/getFile?chat_id=@palm_realestate&file_id=${updates[i]}`)
+                  if(r2.ok)
+                  {
+                      const response2 = await r2.json()
+                     // console.log(response2)
+                     // paths.push(response2.result.file_path)
+                      //alert(response2.result.file_path)
+
+                      posts.push(base_url+response2.result.file_path)
+                     // alert(base_url+response2.result.file_path)
+
+                  }
+              }
+              const posts2:any = Array.from(new Set(posts));
+
+              setURL2(posts2)
+
+       
+       
+
+              
+
+            }
+       
+
+          }
+          catch(e)
+          {
+            console.log(e)
+          }
+
+         // console.log(result)
+        }
+
+        getUpdates()
     },[tokens])
 
     React.useEffect(
@@ -154,26 +232,34 @@ const Telegram = () =>
          // {
             fetchToken()
          // }
+
+       
     
         }
       ,[])
 
 
     return(
-        <div>
+        <div className="mb-20">
             <Heade/>
            
         <div>
-            <h1 className="text-4xl text-center text-cyan-500 lg:mr-20">Telegram Posts</h1>
-      
-        
+            <h1 className="text-4xl text-center text-cyan-500 lg:mr-20">Telegram Recent Posts</h1>
 
-        <div>
-       
-      <div><Display_Image Uri={URL[0]}/></div>
+        
+            {
+  URL2.length === 0 ? (
+    <h3 className="text-4xl text-center  text-red-500 lg:mr-20 mt-20">No Recent Posts</h3>
+  ) : (
+    URL2.map((url, index) => (
+      <div key={index}>
+        <Display_Image Uri={url} />
+      </div>
+    ))
+  )
+}
+
       
-  
-        </div>
 
       
       
@@ -190,3 +276,4 @@ const Telegram = () =>
 }
 
 export default isAuth(Telegram)
+//export default Telegram
