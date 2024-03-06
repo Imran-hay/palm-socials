@@ -72,8 +72,8 @@ interface DisplayImageProps {
 
 const Display_Image = ({ Uri }: DisplayImageProps) => {
     return (
-      <div  style={{  margin:"30px",alignItems:"center",marginLeft:"15vw" }}>
-        <img src={Uri} className="lg:ml-20" style={{height:"350px",width:"400px",marginLeft:"5vw",borderRadius:10}}  alt="img" />
+      <div  style={{  alignItems:"center" }}>
+        <img src={Uri} className="lg:ml-20" style={{height:"300px",width:"300px",borderRadius:10,objectFit:"contain"}}  alt="img" />
       </div>
     );
   };
@@ -114,60 +114,7 @@ const Telegram = () =>
  
 
     React.useEffect(()=>{
-        const fetchData = async() =>{
-            const base_url = `https://api.telegram.org/file/bot${tokens.TELEGRAM_TOKEN}/`
-           // alert(base_url)
-
-        
-
-           if(tokens.TELEGRAM_TOKEN !== '')
-           {
-
-          
-            try{
-                const r =await  fetch(`https://api.telegram.org/bot${tokens.TELEGRAM_TOKEN}/getChat?chat_id=@palm_realestate`)
-                if(r.ok)
-                {
-                    const response = await r.json()
-                   // console.log(response.result.photo)
-                   // ids.push(response.result.photo.big_file_unique_id)
-                    ids.push(response.result.photo.big_file_id)
-                   // ids.push(response.result.photo.small_file_unique_id)
-                   // ids.push(response.result.photo.small_file_id)
-    
-                    for(let i = 0 ; i < ids.length;i++)
-                    {
-                        const r2 = await fetch(`https://api.telegram.org/bot${tokens.TELEGRAM_TOKEN}/getFile?chat_id=@palm_realestate&file_id=${ids[i]}`)
-                        if(r2.ok)
-                        {
-                            const response2 = await r2.json()
-                           // console.log(response2)
-                            paths.push(response2.result.file_path)
-                            //alert(response2.result.file_path)
-    
-                            urls.push(base_url+response2.result.file_path)
-                            //alert(urls[i])
-    
-                        }
-                    }
-    
-                    setURL(urls)
-    
-    
-                }
-                setURL(urls)
-    
-            }
-            catch(e)
-            {
-                console.log(e)
-            }
-            setURL(urls)
-
-        }
-        
-        }
-        fetchData()
+     
 
         const getUpdates = async() =>{
     
@@ -180,19 +127,20 @@ const Telegram = () =>
             console.log("data",data)
             let i = 0 
 
-            data.map((posts:Post)=>{
+            data.map((posts:any)=>{
+             // alert(posts.channel_post.photo[1].file_id)
               console.log(posts.channel_post.photo[1].file_id)
               files.push(posts.channel_post.photo[1].file_id)
   
             })
 
-            console.log("files",files)
+           // console.log("files",files)
            const unique = files.filter((value:any, index:any) => files.indexOf(value) === index);
-           //console.log("uniqueArray",uniqueArray)
+          // console.log("uniqueArray",unique)
 
-           for(let i = 0 ; i < unique.length;i++)
+           for(let i = 0 ; i < files.length;i++)
            {
-               const r2 = await fetch(`https://api.telegram.org/bot${tokens.TELEGRAM_TOKEN}/getFile?chat_id=@palm_realestate&file_id=${unique[i]}`)
+               const r2 = await fetch(`https://api.telegram.org/bot${tokens.TELEGRAM_TOKEN}/getFile?chat_id=@palm_realestate&file_id=${files[i]}`)
                if(r2.ok)
                {
                    const response2 = await r2.json()
@@ -201,7 +149,7 @@ const Telegram = () =>
                    //alert(response2.result.file_path)
 
                    posts.push(base_url+response2.result.file_path)
-                  // alert(base_url+response2.result.file_path)
+                 //  alert(base_url+response2.result.file_path)
 
                }
            }
@@ -253,8 +201,9 @@ const Telegram = () =>
     <h3 className="text-4xl text-center  text-red-500 lg:mr-20 mt-20">No Recent Posts</h3>
   ) : (
     URL2.map((url, index) => (
-      <div key={index}>
+      <div key={index} className="flex flex-col justify-center items-center align-middle">
         <Display_Image Uri={url} />
+        <hr/>
       </div>
     ))
   )
