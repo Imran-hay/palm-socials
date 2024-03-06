@@ -61,6 +61,7 @@ var tewa:token = {
 const paths = []
 const ids:any =[]
 const urls:any =[]
+const files:any =[]
 
 var updates:any = []
 var posts:any = []
@@ -81,6 +82,7 @@ const Telegram = () =>
 {
     const [URL,setURL] = React.useState([])
     const [URL2,setURL2] = React.useState([])
+ 
     const [tokens,setTokens] = React.useState(tewa)
     const fetchToken = async() =>{
 
@@ -172,46 +174,43 @@ const Telegram = () =>
 
           const base_url = `https://api.telegram.org/file/bot${tokens.TELEGRAM_TOKEN}/`
           try{
+
+            const response = await fetch("/api/update")
+            const data:any[] = await response.json()
+            console.log("data",data)
+            let i = 0 
+
+            data.map((posts:Post)=>{
+              console.log(posts.channel_post.photo[1].file_id)
+              files.push(posts.channel_post.photo[1].file_id)
+  
+            })
+
+            console.log("files",files)
+           const unique = files.filter((value:any, index:any) => files.indexOf(value) === index);
+           //console.log("uniqueArray",uniqueArray)
+
+           for(let i = 0 ; i < unique.length;i++)
+           {
+               const r2 = await fetch(`https://api.telegram.org/bot${tokens.TELEGRAM_TOKEN}/getFile?chat_id=@palm_realestate&file_id=${unique[i]}`)
+               if(r2.ok)
+               {
+                   const response2 = await r2.json()
+                  // console.log(response2)
+                  // paths.push(response2.result.file_path)
+                   //alert(response2.result.file_path)
+
+                   posts.push(base_url+response2.result.file_path)
+                  // alert(base_url+response2.result.file_path)
+
+               }
+           }
+           const posts2:any = Array.from(new Set(posts));
+
+           setURL2(posts2)
+           
             
-          const response = await fetch(`https://api.telegram.org/bot${tokens.TELEGRAM_TOKEN}/getUpdates?chat_id=@palm_realestate`)
-            if(response.ok)
-            {
-              const data = await response.json()
-              const result = data.result
-    
-              result.map((posts:Post)=>{
-                console.log(posts.channel_post.photo[1].file_id)
-                updates.push(posts.channel_post.photo[1].file_id)
-    
-              })
-    
-              console.log("Telegram updates")
-
-              for(let i = 0 ; i < updates.length;i++)
-              {
-                  const r2 = await fetch(`https://api.telegram.org/bot${tokens.TELEGRAM_TOKEN}/getFile?chat_id=@palm_realestate&file_id=${updates[i]}`)
-                  if(r2.ok)
-                  {
-                      const response2 = await r2.json()
-                     // console.log(response2)
-                     // paths.push(response2.result.file_path)
-                      //alert(response2.result.file_path)
-
-                      posts.push(base_url+response2.result.file_path)
-                     // alert(base_url+response2.result.file_path)
-
-                  }
-              }
-              const posts2:any = Array.from(new Set(posts));
-
-              setURL2(posts2)
-
-       
-       
-
-              
-
-            }
+         
        
 
           }
@@ -219,6 +218,8 @@ const Telegram = () =>
           {
             console.log(e)
           }
+
+          
 
          // console.log(result)
         }
