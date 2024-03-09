@@ -158,7 +158,7 @@ const Instagram = () =>
       } else if (Instagram && Instagram.length > 0) {
         return (
             
-          <div>
+          <div className="mb-40">
             <Heade/>
           
             <h1 className="text-4xl text-red-600 text-center ">Instagram Posted Media</h1>

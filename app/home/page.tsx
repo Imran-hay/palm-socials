@@ -14,6 +14,12 @@ import isAuth from '../Components/Auth';
 import { TokenContext,TokenProvider } from '@/context/TokenContext';
 import { AnyObjectSchema } from 'yup';
 
+import {Api,TelegramClient} from 'telegram'
+import { StringSession } from 'telegram/sessions';
+import fs from 'fs';
+
+
+
 
 var ha =[]
 var Tlikes = ""
@@ -113,6 +119,102 @@ DROPBOX_SECRET:""
 }*/
 
 var tewa:{} = {}
+interface StatsObject {
+  period: {
+    minDate: number;
+    maxDate: number;
+    className: string;
+  };
+  followers: {
+    current: number;
+    previous: number;
+    className: string;
+  };
+  viewsPerPost: {
+    current: number;
+    previous: number;
+    className: string;
+  };
+  sharesPerPost: {
+    current: number;
+    previous: number;
+    className: string;
+  };
+  reactionsPerPost: {
+    current: number;
+    previous: number;
+    className: string;
+  };
+  viewsPerStory: {
+    current: number;
+    previous: number;
+    className: string;
+  };
+  sharesPerStory: {
+    current: number;
+    previous: number;
+    className: string;
+  };
+  reactionsPerStory: {
+    current: number;
+    previous: number;
+    className: string;
+  };
+  enabledNotifications: {
+    part: number;
+    total: number;
+    className: string;
+  };
+}
+
+
+var ta: StatsObject = {
+  period: {
+    minDate: 1709231738,
+    maxDate: 1709836538,
+    className: "StatsDateRangeDays"
+  },
+  followers: {
+    current: 122,
+    previous: 120,
+    className: "StatsAbsValueAndPrev"
+  },
+  viewsPerPost: {
+    current: 0,
+    previous: 0,
+    className: "StatsAbsValueAndPrev"
+  },
+  sharesPerPost: {
+    current: 0,
+    previous: 0,
+    className: "StatsAbsValueAndPrev"
+  },
+  reactionsPerPost: {
+    current: 0,
+    previous: 0,
+    className: "StatsAbsValueAndPrev"
+  },
+  viewsPerStory: {
+    current: 0,
+    previous: 0,
+    className: "StatsAbsValueAndPrev"
+  },
+  sharesPerStory: {
+    current: 0,
+    previous: 0,
+    className: "StatsAbsValueAndPrev"
+  },
+  reactionsPerStory: {
+    current: 0,
+    previous: 0,
+    className: "StatsAbsValueAndPrev"
+  },
+  enabledNotifications: {
+    part: 108,
+    total: 122,
+    className: "StatsPercentValue"
+  }
+};
 
 
 
@@ -196,6 +298,24 @@ const AbbreviationCard: React.FC<AbbreviationCardProps> = ({ word, abbreviation 
 
 ///const TokenContext = createContext<token | null>(null);
 
+const getDate = (value:number)=>{
+  const timestamp = value;
+const date = new Date(timestamp * 1000);
+
+const day = date.getDate().toString().padStart(2, '0');
+const month = (date.getMonth() + 1).toString().padStart(2, '0');
+const year = date.getFullYear().toString();
+
+const formattedDate = `${day}:${month}:${year}`;
+
+//console.log('Formatted Date:', formattedDate);
+
+return formattedDate;
+
+
+
+}
+
 
 
 
@@ -228,6 +348,9 @@ const Home = () => {
  const [view,setView] = React.useState("")
 
  const tokenContext = React.useContext(TokenContext)
+
+
+ const [Telegram,setTelegram] = React.useState(ta)
   
   
 
@@ -291,6 +414,43 @@ const Home = () => {
        
       
   }, []);
+
+  useEffect(() => {
+  
+    const fetchTelegram2 = async()=>{
+
+
+
+      console.log("telegram2")
+
+      try {
+        const response = await fetch("/api/Telegram")
+        const data = await response.json()
+        console.log(data)
+        setTelegram(data)
+        ta = data
+        
+      } catch (error) {
+
+        console.log(error)
+        
+      }
+
+
+    
+
+
+    }
+
+
+    fetchTelegram2()
+    
+     
+       
+       
+         
+        
+    }, []);
 
   useEffect(() => {
     const fetchInstagram = async() =>
@@ -929,7 +1089,11 @@ const Home = () => {
 <table className="table w-full" style={{textAlign:"left",margin:"20px"}}>
   {/* head */}
   <thead>
-    <tr>
+    <tr className='flex items-center justify-center'>
+      <th className='text-cyan-600 text-lg  text-center justify-center items-center align-middle' >
+      
+
+      </th>
     
     </tr>
   </thead>
@@ -945,10 +1109,66 @@ const Home = () => {
       <th className='text-cyan-600'>Followers Count</th>
       <td className='text-cyan-600'>{Telegram2.result}</td>
     </tr>
+    <tr className="hover">
+      <th className='text-cyan-600'>New Followers for this week</th>
+      <td className='text-cyan-600'>{Telegram.followers.current - Telegram.followers.previous}</td>
+    </tr>
+
+    <tr className="hover">
+      <th className='text-cyan-600'>Total Views For Posts for this week</th>
+      <td className='text-cyan-600'>{Telegram.viewsPerPost.current}</td>
+    </tr>
+
+    <tr className="hover">
+      <th className='text-cyan-600'>Total Shares For Posts for this week</th>
+      <td className='text-cyan-600'>{Telegram.sharesPerPost.current}</td>
+    </tr>
+
+    <tr className="hover">
+      <th className='text-cyan-600'>Total Reactions For Posts for this week</th>
+      <td className='text-cyan-600'>{Telegram.reactionsPerPost.current}</td>
+    </tr>
+
+    <tr className="hover">
+      <th className='text-cyan-600'>Total Views For Stories for this week</th>
+      <td className='text-cyan-600'>{Telegram.viewsPerStory.current}</td>
+    </tr>
+
+    <tr className="hover">
+      <th className='text-cyan-600'>Total Shares For Stories for this week</th>
+      <td className='text-cyan-600'>{Telegram.sharesPerStory.current}</td>
+    </tr>
+
+    <tr className="hover">
+      <th className='text-cyan-600'>Total Reactions For Stories for this week</th>
+      <td className='text-cyan-600'>{Telegram.reactionsPerStory.current}</td>
+    </tr>
+
+    <tr className="hover">
+      <th className='text-cyan-600'>Total Number of people who enabled notifications for channel</th>
+      <td className='text-cyan-600'>{Telegram.enabledNotifications.total}</td>
+    </tr>
+
 
  
   </tbody>
 </table>
+
+
+       
+        
+
+<div className="table-info justify-center items-center align-middle">
+      <p className='text-center text-lg text-teal-300'>{
+           "Telegram Analytics is From " + getDate(Telegram.period.minDate) + " To " + getDate(Telegram.period.maxDate)
+        
+        
+        
+        
+        
+        }</p>
+    </div>
+
 </div>
 
             )
