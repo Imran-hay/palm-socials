@@ -2,7 +2,6 @@ import React from 'react';
 
 const TermsOfService = () => {
   return (
-
       <div className=" flex flex-col ml-5">
         <h1 className="text-3xl text-center mb-6 text-teal-700">Terms of Service</h1>
         <p className="text-lg mb-4 text-cyan-600 text-center">
