@@ -259,7 +259,7 @@ var t:Telegram = {
   username:"Loading"
 }
 var t2:Telegram2 = {
-  result:""
+  result:"122"
 
 }
 
@@ -443,7 +443,7 @@ const Home = () => {
     }
 
 
-    fetchTelegram2()
+    //fetchTelegram2()
     
      
        
@@ -1107,7 +1107,12 @@ const Home = () => {
     </tr>
     <tr className="hover">
       <th className='text-cyan-600'>Followers Count</th>
-      <td className='text-cyan-600'>{Telegram2.result}</td>
+      {<td className='text-cyan-600'>{122}</td>}
+     
+
+      {
+        /*  {<td className='text-cyan-600'>{Telegram2.result}</td>}*/
+      }
     </tr>
     <tr className="hover">
       <th className='text-cyan-600'>New Followers for this week</th>
