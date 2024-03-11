@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .body {
+/* 
+    justify-content: center;
+    align-items: center; */
+    min-height: 100vh;
+    background: white;
+
+
+  }
+  .box p {
+    position: relative;
+  /*   text-align: center; */
+
+
+    padding: .5rem 1rem;
+
+    z-index: 10;
+    text-decoration: none;
+    color: black;
+  }
+  .box .btn-read{
+    position: relative;
+    padding: 0 1rem 1rem 1rem;
+
+    z-index: 10;
+    text-decoration: none;
+    color: black;
+  }
+  .box:hover {
+    --border-size: 4px;
+  }
+
+  .box h2 {
+    position: relative;
+    /* text-align: center; */
+    
+ 
+    padding: 1rem;
+ 
+    z-index: 10;
+    text-decoration: none;
+    color: black;
+  }
+  .box:hover {
+    --border-size: 4px;
+  }
+  
+  .box {
+    --size: fit-content;
+    --cone-color: #ff2770;
+    --rounded: 16px;
+    --border-size: 1px;
+    transition: border-width 1s linear;
+    isolation: isolate;
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Added flex-direction property */
+  /*   justify-content: center;
+    align-items: center; */
+    width: var(--size);
+    border-radius: var(--rounded);
+    background: repeating-conic-gradient(
+      from var(--angle),
+      var(--cone-color) 0%,
+      var(--cone-color) 5%,
+      transparent 5%,
+      transparent 40%,
+      var(--cone-color) 50%
+    );
+    animation: animate 4s linear infinite;
+  }
+  
+  @property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+  }
+  
+  @keyframes animate {
+    0% {
+      --angle: 0deg;
+    }
+    100% {
+      --angle: 360deg;
+    }
+  }
+  
+  .box:before {
+    content: "";
+    --size: 100%;
+    position: absolute;
+    width: var(--size);
+    --cone-color: #45f3ff;
+    background: repeating-conic-gradient(
+      from var(--angle),
+      var(--cone-color) 0%,
+      var(--cone-color) 5%,
+      transparent 5%,
+      transparent 40%,
+      var(--cone-color) 50%
+    );
+    animation: animate 4s linear infinite;
+    animation-delay: -1s;
+    border-radius: var(--rounded);
+  }
+  
+  .box:after {
+    content: "";
+    position: absolute;
+    inset: var(--border-size);
+    background: white;
+    border-radius: calc(var(--rounded) * 0.75);
+    border: var(--border-size) solid #25252b;
+  }
+  
