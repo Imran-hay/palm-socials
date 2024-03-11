@@ -10,7 +10,7 @@ const Landing = () => {
 
     const router = useRouter()
 
-    const animationContainer = useRef(null);
+    const animationContainer = useRef(null!);
 
   useEffect(() => {
     const anim = lottie.loadAnimation({
@@ -65,7 +65,7 @@ const Landing = () => {
         </div>
         <div className='hidden md:inline'>
 
-        <div ref={animationContainer}></div>
+        <div ref={animationContainer} id='con'></div>
         </div>
       </div>
 
